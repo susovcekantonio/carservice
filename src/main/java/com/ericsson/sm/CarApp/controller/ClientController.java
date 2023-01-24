@@ -14,7 +14,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-public class ClientController {
+public class ClientController  {
 
     private final ClientService clientService;
 
