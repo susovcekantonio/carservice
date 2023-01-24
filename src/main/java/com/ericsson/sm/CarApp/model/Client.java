@@ -14,7 +14,7 @@ public class Client {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "client_sequence")
     @SequenceGenerator(name = "client_sequence", allocationSize = 1)
     @Column(name = "client_id")
-    private Integer id;
+    private Long id;
 
     @Column(name = "firstname")
 
@@ -33,7 +33,7 @@ public class Client {
     private String street;
 
     @Column(name="streetnumber")
-    private Integer streetNumber;
+    private String streetNumber;
 
     @Column(name = "zipcode")
     private String zipCode;
