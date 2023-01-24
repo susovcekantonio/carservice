@@ -3,11 +3,10 @@ package com.ericsson.sm.CarApp.dto;
 import lombok.Getter;
 import lombok.Setter;
 
-
 @Getter
 @Setter
-public class ClientResponseDto {
-
+public class AllClientsResponseDto {
+    private Integer id;
     private String firstName;
     private String lastName;
     private String oib;
@@ -16,4 +15,6 @@ public class ClientResponseDto {
     private Integer streetNumber;
     private String zipCode;
     private String country;
+
+
 }

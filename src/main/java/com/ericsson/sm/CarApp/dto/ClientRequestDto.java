@@ -11,7 +11,7 @@ public class ClientRequestDto {
     private String oib;
     private String city;
     private String street;
-    private String number;
+    private Integer streetNumber;
     private String zipCode;
     private String country;
 
