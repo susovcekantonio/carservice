@@ -12,5 +12,5 @@ public interface ClientService {
 
     List<AllClientsResponseDto> getAll();
 
-    public ClientResponseDto getById(@PathVariable Long id);
+    public ClientResponseDto getById(Long id);
 }
