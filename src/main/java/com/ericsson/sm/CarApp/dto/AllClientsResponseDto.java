@@ -1,39 +1,14 @@
-package com.ericsson.sm.CarApp.model;
+package com.ericsson.sm.CarApp.dto;
 
-import lombok.Getter;
-import lombok.Setter;
-
-import javax.persistence.*;
-
-@Entity
-@Table(name = "client")
-public class Client {
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "client_sequence")
-    @SequenceGenerator(name = "client_sequence", allocationSize = 1)
-    @Column(name = "client_id")
+public class AllClientsResponseDto {
     private Integer id;
-
-    @Column(name = "firstname")
-
     private String firstName;
-
-    @Column(name = "lastname")
     private String lastName;
-
-    @Column(name = "oib")
     private String oib;
-
-    @Column(name = "city")
     private String city;
-
-    @Column(name = "street")
     private String street;
 
-    @Column(name = "zipcode")
     private String zipCode;
-
-    @Column(name = "country")
     private String country;
 
     public Integer getId() {
@@ -83,6 +58,7 @@ public class Client {
     public void setStreet(String street) {
         this.street = street;
     }
+
 
     public String getZipCode() {
         return zipCode;

@@ -13,7 +13,6 @@ public class ClientResponseDto {
     private String oib;
     private String city;
     private String street;
-    private String number;
     private String zipCode;
     private String country;
 }

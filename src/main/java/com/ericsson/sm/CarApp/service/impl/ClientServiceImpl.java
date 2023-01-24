@@ -28,7 +28,6 @@ public class ClientServiceImpl implements ClientService {
         client.setStreet(clientRequestDto.getStreet());
         client.setZipCode(clientRequestDto.getZipCode());
         client.setCountry(clientRequestDto.getCountry());
-        client.setNumber(clientRequestDto.getNumber());
 
         Client savedClient = clientRepository.save(client);
 
@@ -40,9 +39,28 @@ public class ClientServiceImpl implements ClientService {
         clientResponseDto.setStreet(savedClient.getStreet());
         clientResponseDto.setZipCode(savedClient.getZipCode());
         clientResponseDto.setCountry(savedClient.getCountry());
-        clientResponseDto.setNumber(savedClient.getNumber());
 
         return clientResponseDto;
     }
 
-}
+    @Override
+    public List<AllClientsResponseDto> getAll() {
+        List<Client> all = clientRepository.findAll();
+        List<AllClientsResponseDto> savedClients = new ArrayList<>();
+        for(Client client : all) {
+            AllClientsResponseDto allClientsResponseDto = new AllClientsResponseDto();
+            allClientsResponseDto.setId(client.getId());
+            allClientsResponseDto.setFirstName(client.getFirstName());
+            allClientsResponseDto.setLastName(client.getLastName());
+            allClientsResponseDto.setOib(client.getOib());
+            allClientsResponseDto.setCity(client.getCity());
+            allClientsResponseDto.setStreet(client.getStreet());
+            allClientsResponseDto.setZipCode(client.getZipCode());
+            allClientsResponseDto.setCountry(client.getCountry());
+            savedClients.add(allClientsResponseDto);
+        }
+        return savedClients;
+        }
+    }
+
+
