@@ -35,9 +35,4 @@ public class ClientController  {
         public ResponseEntity<String> deleteById(@PathVariable Long id){
         return clientService.deleteById(id);
     }
-
-    @PutMapping("/api/customers/{id}")
-    public ResponseEntity<?> update(@PathVariable Long id, @RequestBody ClientRequestDto clientRequestDto){
-        return clientService.update(id, clientRequestDto);
-    }
 }
