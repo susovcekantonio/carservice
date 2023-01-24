@@ -26,6 +26,7 @@ public class ClientServiceImpl implements ClientService {
         client.setOib(clientRequestDto.getOib());
         client.setCity(clientRequestDto.getCity());
         client.setStreet(clientRequestDto.getStreet());
+        client.setStreetNumber(clientRequestDto.getStreetNumber());
         client.setZipCode(clientRequestDto.getZipCode());
         client.setCountry(clientRequestDto.getCountry());
 
@@ -37,6 +38,7 @@ public class ClientServiceImpl implements ClientService {
         clientResponseDto.setOib(savedClient.getOib());
         clientResponseDto.setCity(savedClient.getCity());
         clientResponseDto.setStreet(savedClient.getStreet());
+        clientResponseDto.setStreetNumber(savedClient.getStreetNumber());
         clientResponseDto.setZipCode(savedClient.getZipCode());
         clientResponseDto.setCountry(savedClient.getCountry());
 
@@ -55,6 +57,7 @@ public class ClientServiceImpl implements ClientService {
             allClientsResponseDto.setOib(client.getOib());
             allClientsResponseDto.setCity(client.getCity());
             allClientsResponseDto.setStreet(client.getStreet());
+            allClientsResponseDto.setStreetNumber(client.getStreetNumber());
             allClientsResponseDto.setZipCode(client.getZipCode());
             allClientsResponseDto.setCountry(client.getCountry());
             savedClients.add(allClientsResponseDto);
