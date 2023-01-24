@@ -95,6 +95,37 @@ public class ClientServiceImpl implements ClientService {
         return ResponseEntity.ok("Doesn't exist");
 
     }
+
+    @Override
+    public ResponseEntity<?> update(Long id, ClientRequestDto clientRequestDto) {
+        Client searchedClient = clientRepository.findById(id).orElse(null);
+
+        if(searchedClient==null) {
+            return ResponseEntity.ok("Doesn't exist");
+        }
+
+        searchedClient.setFirstName(clientRequestDto.getFirstName());
+        searchedClient.setLastName(clientRequestDto.getLastName());
+        searchedClient.setCity(clientRequestDto.getCity());
+        searchedClient.setStreet(clientRequestDto.getStreet());
+        searchedClient.setStreetNumber(clientRequestDto.getStreetNumber());
+        searchedClient.setZipCode(clientRequestDto.getZipCode());
+        searchedClient.setCountry(clientRequestDto.getCountry());
+
+        clientRepository.save(searchedClient);
+
+        ClientResponseDto clientResponseDto = new ClientResponseDto();
+        clientResponseDto.setFirstName(searchedClient.getFirstName());
+        clientResponseDto.setLastName(searchedClient.getLastName());
+        clientResponseDto.setOib(searchedClient.getOib());
+        clientResponseDto.setCity(searchedClient.getCity());
+        clientResponseDto.setStreet(searchedClient.getStreet());
+        clientResponseDto.setStreetNumber(searchedClient.getStreetNumber());
+        clientResponseDto.setZipCode(searchedClient.getZipCode());
+        clientResponseDto.setCountry(searchedClient.getCountry());
+
+        return ResponseEntity.ok(clientResponseDto);
+    }
 }
 
 
