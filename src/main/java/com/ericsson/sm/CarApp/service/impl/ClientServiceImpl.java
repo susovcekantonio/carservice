@@ -64,6 +64,25 @@ public class ClientServiceImpl implements ClientService {
         }
         return savedClients;
         }
+
+    @Override
+    public ClientResponseDto getById(Long id) {
+        Client searchedClient = clientRepository.findById(id).orElse(null);
+
+        ClientResponseDto clientResponseDto = new ClientResponseDto();
+
+        if(searchedClient!=null) {
+            clientResponseDto.setFirstName(searchedClient.getFirstName());
+            clientResponseDto.setLastName(searchedClient.getLastName());
+            clientResponseDto.setOib(searchedClient.getOib());
+            clientResponseDto.setCity(searchedClient.getCity());
+            clientResponseDto.setStreet(searchedClient.getStreet());
+            clientResponseDto.setStreetNumber(searchedClient.getStreetNumber());
+            clientResponseDto.setZipCode(searchedClient.getZipCode());
+            clientResponseDto.setCountry(searchedClient.getCountry());
+        }
+        return clientResponseDto;
     }
+}
 
 
