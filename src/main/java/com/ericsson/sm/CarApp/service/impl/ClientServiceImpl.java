@@ -1,11 +1,11 @@
 package com.ericsson.sm.CarApp.service.impl;
 
-import com.ericsson.sm.CarApp.dto.AllClientsResponseDto;
 import com.ericsson.sm.CarApp.dto.ClientRequestDto;
 import com.ericsson.sm.CarApp.dto.ClientResponseDto;
 import com.ericsson.sm.CarApp.model.Client;
 import com.ericsson.sm.CarApp.repository.ClientRepository;
 import com.ericsson.sm.CarApp.service.ClientService;
+import com.ericsson.sm.CarApp.service.mapper.DtoMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -18,50 +18,26 @@ import java.util.List;
 public class ClientServiceImpl implements ClientService {
 
     private final ClientRepository clientRepository;
+    private final DtoMapper dtoMapper;
 
     @Override
     public ClientResponseDto save(ClientRequestDto clientRequestDto) {
-        Client client = new Client();
-        client.setFirstName(clientRequestDto.getFirstName());
-        client.setLastName(clientRequestDto.getLastName());
-        client.setOib(clientRequestDto.getOib());
-        client.setCity(clientRequestDto.getCity());
-        client.setStreet(clientRequestDto.getStreet());
-        client.setStreetNumber(clientRequestDto.getStreetNumber());
-        client.setZipCode(clientRequestDto.getZipCode());
-        client.setCountry(clientRequestDto.getCountry());
+        Client client = dtoMapper.toDto(clientRequestDto);
 
         Client savedClient = clientRepository.save(client);
 
-        ClientResponseDto clientResponseDto = new ClientResponseDto();
-        clientResponseDto.setFirstName(savedClient.getFirstName());
-        clientResponseDto.setLastName(savedClient.getLastName());
-        clientResponseDto.setOib(savedClient.getOib());
-        clientResponseDto.setCity(savedClient.getCity());
-        clientResponseDto.setStreet(savedClient.getStreet());
-        clientResponseDto.setStreetNumber(savedClient.getStreetNumber());
-        clientResponseDto.setZipCode(savedClient.getZipCode());
-        clientResponseDto.setCountry(savedClient.getCountry());
+        ClientResponseDto clientResponseDto = dtoMapper.toDto(savedClient);
 
         return clientResponseDto;
     }
 
     @Override
-    public List<AllClientsResponseDto> getAll() {
+    public List<ClientResponseDto> getAll() {
         List<Client> all = clientRepository.findAll();
-        List<AllClientsResponseDto> savedClients = new ArrayList<>();
+        List<ClientResponseDto> savedClients = new ArrayList<>();
         for(Client client : all) {
-            AllClientsResponseDto allClientsResponseDto = new AllClientsResponseDto();
-            allClientsResponseDto.setId(client.getId());
-            allClientsResponseDto.setFirstName(client.getFirstName());
-            allClientsResponseDto.setLastName(client.getLastName());
-            allClientsResponseDto.setOib(client.getOib());
-            allClientsResponseDto.setCity(client.getCity());
-            allClientsResponseDto.setStreet(client.getStreet());
-            allClientsResponseDto.setStreetNumber(client.getStreetNumber());
-            allClientsResponseDto.setZipCode(client.getZipCode());
-            allClientsResponseDto.setCountry(client.getCountry());
-            savedClients.add(allClientsResponseDto);
+            ClientResponseDto clientResponseDto = dtoMapper.toDto(client);
+            savedClients.add(clientResponseDto);
         }
         return savedClients;
         }
@@ -73,14 +49,7 @@ public class ClientServiceImpl implements ClientService {
         ClientResponseDto clientResponseDto = new ClientResponseDto();
 
         if(searchedClient!=null) {
-            clientResponseDto.setFirstName(searchedClient.getFirstName());
-            clientResponseDto.setLastName(searchedClient.getLastName());
-            clientResponseDto.setOib(searchedClient.getOib());
-            clientResponseDto.setCity(searchedClient.getCity());
-            clientResponseDto.setStreet(searchedClient.getStreet());
-            clientResponseDto.setStreetNumber(searchedClient.getStreetNumber());
-            clientResponseDto.setZipCode(searchedClient.getZipCode());
-            clientResponseDto.setCountry(searchedClient.getCountry());
+            clientResponseDto = dtoMapper.toDto(searchedClient);
         }
         return clientResponseDto;
     }
@@ -104,25 +73,11 @@ public class ClientServiceImpl implements ClientService {
             return ResponseEntity.ok("Doesn't exist");
         }
 
-        searchedClient.setFirstName(clientRequestDto.getFirstName());
-        searchedClient.setLastName(clientRequestDto.getLastName());
-        searchedClient.setCity(clientRequestDto.getCity());
-        searchedClient.setStreet(clientRequestDto.getStreet());
-        searchedClient.setStreetNumber(clientRequestDto.getStreetNumber());
-        searchedClient.setZipCode(clientRequestDto.getZipCode());
-        searchedClient.setCountry(clientRequestDto.getCountry());
+        searchedClient = dtoMapper.toDto(clientRequestDto);
 
         clientRepository.save(searchedClient);
 
-        ClientResponseDto clientResponseDto = new ClientResponseDto();
-        clientResponseDto.setFirstName(searchedClient.getFirstName());
-        clientResponseDto.setLastName(searchedClient.getLastName());
-        clientResponseDto.setOib(searchedClient.getOib());
-        clientResponseDto.setCity(searchedClient.getCity());
-        clientResponseDto.setStreet(searchedClient.getStreet());
-        clientResponseDto.setStreetNumber(searchedClient.getStreetNumber());
-        clientResponseDto.setZipCode(searchedClient.getZipCode());
-        clientResponseDto.setCountry(searchedClient.getCountry());
+        ClientResponseDto clientResponseDto = dtoMapper.toDto(searchedClient);
 
         return ResponseEntity.ok(clientResponseDto);
     }
