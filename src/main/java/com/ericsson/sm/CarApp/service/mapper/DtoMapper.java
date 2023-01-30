@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class DtoMapper {
-    public static ClientResponseDto toDto(Client client){
+    public ClientResponseDto toDto(Client client){
         ClientResponseDto clientResponseDto = new ClientResponseDto();
         clientResponseDto.setFirstName(client.getFirstName());
         clientResponseDto.setLastName(client.getLastName());
