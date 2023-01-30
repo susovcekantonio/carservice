@@ -7,11 +7,10 @@ import com.ericsson.sm.CarApp.repository.ClientRepository;
 import com.ericsson.sm.CarApp.service.ClientService;
 import com.ericsson.sm.CarApp.service.mapper.DtoMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -32,14 +31,8 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public List<ClientResponseDto> getAll() {
-        List<Client> all = clientRepository.findAll();
-        List<ClientResponseDto> savedClients = new ArrayList<>();
-        for(Client client : all) {
-            ClientResponseDto clientResponseDto = dtoMapper.toDto(client);
-            savedClients.add(clientResponseDto);
-        }
-        return savedClients;
+    public Page<ClientResponseDto> getAll(String firstName, String lastName, Pageable pageable) {
+            return clientRepository.findByFirstOrLastName(firstName,lastName,pageable).map(dtoMapper::toDto);
         }
 
     @Override

@@ -4,10 +4,12 @@ import com.ericsson.sm.CarApp.dto.ClientRequestDto;
 import com.ericsson.sm.CarApp.dto.ClientResponseDto;
 import com.ericsson.sm.CarApp.service.ClientService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+
 
 @RestController
 @RequiredArgsConstructor
@@ -21,8 +23,10 @@ public class ClientController  {
     }
 
     @GetMapping("/api/customers")
-    public List<ClientResponseDto> getAll() {
-        return clientService.getAll();
+    public Page<ClientResponseDto> getAll(@RequestParam(name="firstname",required = false) String firstName,
+                                          @RequestParam(name="lastname",required = false) String lastname,
+                                          Pageable pageable){
+        return clientService.getAll(firstName,lastname,pageable);
     }
 
     @GetMapping("/api/customers/{id}")

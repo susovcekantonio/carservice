@@ -2,14 +2,13 @@ package com.ericsson.sm.CarApp.service;
 
 import com.ericsson.sm.CarApp.dto.ClientRequestDto;
 import com.ericsson.sm.CarApp.dto.ClientResponseDto;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
-
-import java.util.List;
 
 public interface ClientService {
     ClientResponseDto save(ClientRequestDto clientRequestDto);
-
-    List<ClientResponseDto> getAll();
+    Page<ClientResponseDto> getAll(String firstName, String lastName, Pageable pageable);
 
     public ClientResponseDto getById(Long id);
     public ResponseEntity<String> deleteById(Long id);
