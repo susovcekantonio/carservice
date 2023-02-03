@@ -35,13 +35,15 @@ public class CarDtoMapper {
     public List<CarResponseDto> toDto(List<Car> cars){
         List<CarResponseDto> savedCars = new ArrayList<>();
 
-        for (Car car: cars) {
-            CarResponseDto carResponseDto = new CarResponseDto();
-            carResponseDto.setCarType(car.getCarType());
-            carResponseDto.setManufactureYear(car.getManufactureYear());
-            carResponseDto.setRegistrationMark(car.getRegistrationMark());
-            carResponseDto.setColor(car.getColor());
-            savedCars.add(carResponseDto);
+        if (cars != null || !cars.isEmpty()) {
+            for (Car car : cars) {
+                CarResponseDto carResponseDto = new CarResponseDto();
+                carResponseDto.setCarType(car.getCarType());
+                carResponseDto.setManufactureYear(car.getManufactureYear());
+                carResponseDto.setRegistrationMark(car.getRegistrationMark());
+                carResponseDto.setColor(car.getColor());
+                savedCars.add(carResponseDto);
+            }
         }
         return savedCars;
     }
