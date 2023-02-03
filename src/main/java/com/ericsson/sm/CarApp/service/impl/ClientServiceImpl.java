@@ -5,7 +5,7 @@ import com.ericsson.sm.CarApp.dto.ClientResponseDto;
 import com.ericsson.sm.CarApp.model.Client;
 import com.ericsson.sm.CarApp.repository.ClientRepository;
 import com.ericsson.sm.CarApp.service.ClientService;
-import com.ericsson.sm.CarApp.service.mapper.DtoMapper;
+import com.ericsson.sm.CarApp.service.mapper.ClientDtoMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -17,22 +17,22 @@ import org.springframework.stereotype.Service;
 public class ClientServiceImpl implements ClientService {
 
     private final ClientRepository clientRepository;
-    private final DtoMapper dtoMapper;
+    private final ClientDtoMapper clientDtoMapper;
 
     @Override
     public ClientResponseDto save(ClientRequestDto clientRequestDto) {
-        Client client = dtoMapper.toDto(clientRequestDto);
+        Client client = clientDtoMapper.toDto(clientRequestDto);
 
         Client savedClient = clientRepository.save(client);
 
-        ClientResponseDto clientResponseDto = dtoMapper.toDto(savedClient);
+        ClientResponseDto clientResponseDto = clientDtoMapper.toDto(savedClient);
 
         return clientResponseDto;
     }
 
     @Override
     public Page<ClientResponseDto> getAll(String firstName, String lastName, Pageable pageable) {
-            return clientRepository.findByFirstOrLastName(firstName,lastName,pageable).map(dtoMapper::toDto);
+            return clientRepository.findByFirstOrLastName(firstName,lastName,pageable).map(clientDtoMapper::toDto);
         }
 
     @Override
@@ -42,7 +42,7 @@ public class ClientServiceImpl implements ClientService {
         ClientResponseDto clientResponseDto = new ClientResponseDto();
 
         if(searchedClient!=null) {
-            clientResponseDto = dtoMapper.toDto(searchedClient);
+            clientResponseDto = clientDtoMapper.toDto(searchedClient);
         }
         return clientResponseDto;
     }
@@ -66,11 +66,11 @@ public class ClientServiceImpl implements ClientService {
             return ResponseEntity.ok("Doesn't exist");
         }
 
-        searchedClient = dtoMapper.toDto(clientRequestDto);
+        searchedClient = clientDtoMapper.toDto(clientRequestDto);
 
         clientRepository.save(searchedClient);
 
-        ClientResponseDto clientResponseDto = dtoMapper.toDto(searchedClient);
+        ClientResponseDto clientResponseDto = clientDtoMapper.toDto(searchedClient);
 
         return ResponseEntity.ok(clientResponseDto);
     }
