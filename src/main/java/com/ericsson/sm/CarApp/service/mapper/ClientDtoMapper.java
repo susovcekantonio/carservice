@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class ClientDtoMapper {
+
+    private final CarDtoMapper carDtoMapper;
     public ClientResponseDto toDto(Client client){
         ClientResponseDto clientResponseDto = new ClientResponseDto();
         clientResponseDto.setFirstName(client.getFirstName());
@@ -19,7 +21,7 @@ public class ClientDtoMapper {
         clientResponseDto.setStreetNumber(client.getStreetNumber());
         clientResponseDto.setZipCode(client.getZipCode());
         clientResponseDto.setCountry(client.getCountry());
-        clientResponseDto.setCars(client.getCars());
+        clientResponseDto.setCars(carDtoMapper.toDto(client.getCars()));
 
         return clientResponseDto;
     }
@@ -34,7 +36,7 @@ public class ClientDtoMapper {
         client.setStreetNumber(clientRequestDto.getStreetNumber());
         client.setZipCode(clientRequestDto.getZipCode());
         client.setCountry(clientRequestDto.getCountry());
-        client.setCars(clientRequestDto.getCars());
+
         return client;
     }
 

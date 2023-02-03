@@ -6,6 +6,9 @@ import com.ericsson.sm.CarApp.model.Car;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class CarDtoMapper {
@@ -27,5 +30,19 @@ public class CarDtoMapper {
         car.setColor(carRequestDto.getColor());
 
         return car;
+    }
+
+    public List<CarResponseDto> toDto(List<Car> cars){
+        List<CarResponseDto> savedCars = new ArrayList<>();
+
+        for (Car car: cars) {
+            CarResponseDto carResponseDto = new CarResponseDto();
+            carResponseDto.setCarType(car.getCarType());
+            carResponseDto.setManufactureYear(car.getManufactureYear());
+            carResponseDto.setRegistrationMark(car.getRegistrationMark());
+            carResponseDto.setColor(car.getColor());
+            savedCars.add(carResponseDto);
+        }
+        return savedCars;
     }
 }

@@ -1,6 +1,5 @@
 package com.ericsson.sm.CarApp.dto;
 
-import com.ericsson.sm.CarApp.model.Car;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -19,5 +18,5 @@ public class ClientResponseDto {
     private String streetNumber;
     private String zipCode;
     private String country;
-    private List<Car> cars;
+    private List<CarResponseDto> cars;
 }
