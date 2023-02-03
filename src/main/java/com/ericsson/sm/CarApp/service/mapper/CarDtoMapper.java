@@ -35,7 +35,7 @@ public class CarDtoMapper {
     public List<CarResponseDto> toDto(List<Car> cars){
         List<CarResponseDto> savedCars = new ArrayList<>();
 
-        if (cars != null || !cars.isEmpty()) {
+        if (cars != null && !cars.isEmpty()) {
             for (Car car : cars) {
                 CarResponseDto carResponseDto = new CarResponseDto();
                 carResponseDto.setCarType(car.getCarType());
