@@ -52,6 +52,7 @@ public class CarServiceImpl implements CarService {
         client.getCars().remove(car);
 
         car=carDtoMapper.toEntityWithId(carId,carRequestDto);
+        car.setClient(clientRepository.findById(clientId).orElse(null));
         carRepository.save(car);
         client.getCars().add(car);
         CarResponseDto carResponseDto=carDtoMapper.toDto(car);
