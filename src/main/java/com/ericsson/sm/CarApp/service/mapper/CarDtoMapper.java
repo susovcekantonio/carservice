@@ -32,6 +32,17 @@ public class CarDtoMapper {
         return car;
     }
 
+    public Car toEntityWithId(Long carId,CarRequestDto carRequestDto){
+        Car car = new Car();
+        car.setId(carId);
+        car.setCarType(carRequestDto.getCarType());
+        car.setManufactureYear(carRequestDto.getManufactureYear());
+        car.setRegistrationMark(carRequestDto.getRegistrationMark());
+        car.setColor(carRequestDto.getColor());
+
+        return car;
+    }
+
     public List<CarResponseDto> toDto(List<Car> cars){
         List<CarResponseDto> savedCars = new ArrayList<>();
 
