@@ -47,9 +47,9 @@ public class CarServiceImpl implements CarService {
     public ResponseEntity<?> updateById(Long clientId, Long carId, CarRequestDto carRequestDto) {
         Client client = clientRepository.findById(clientId).orElse(null);
         Car car = carRepository.findById(carId).orElse(null);
-        client.getCars().remove(car);
         if(client==null) return ResponseEntity.ok("Client doesn't exist");
         if(car==null) return ResponseEntity.ok("Car doesn't exist");
+        client.getCars().remove(car);
 
         car=carDtoMapper.toEntityWithId(carId,carRequestDto);
         carRepository.save(car);
