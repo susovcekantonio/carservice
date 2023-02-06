@@ -14,6 +14,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
+
 @Service
 @RequiredArgsConstructor
 public class CarServiceImpl implements CarService {
@@ -24,7 +26,7 @@ public class CarServiceImpl implements CarService {
 
     public ClientResponseDto save(Long id, CarRequestDto carRequestDto){
         Car car= carDtoMapper.toEntity(carRequestDto);
-        car.setClient(clientRepository.findById(id).orElse(null));
+        car.setClient(clientRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Client doesn't exist")));
         carRepository.save(car);
         ClientResponseDto clientResponseDto= clientDtoMapper.toDto(clientRepository.findById(id).orElse(null));
 
@@ -32,10 +34,8 @@ public class CarServiceImpl implements CarService {
     }
 
     public ResponseEntity<String> deleteById(Long clientId,Long carId){
-        Client client = clientRepository.findById(clientId).orElse(null);
-        Car car = carRepository.findById(carId).orElse(null);
-        if(client==null) return ResponseEntity.ok("Client doesn't exist");
-        if(car==null) return ResponseEntity.ok("Car doesn't exist");
+        Client client = clientRepository.findById(clientId).orElseThrow(() -> new EntityNotFoundException("Client doesn't exist"));
+        Car car = carRepository.findById(carId).orElseThrow(() -> new EntityNotFoundException("Car doesn't exist"));
         client.getCars().remove(car);
         carRepository.deleteById(carId);
 
@@ -45,14 +45,13 @@ public class CarServiceImpl implements CarService {
 
     @Override
     public ResponseEntity<?> updateById(Long clientId, Long carId, CarRequestDto carRequestDto) {
-        Client client = clientRepository.findById(clientId).orElse(null);
-        Car car = carRepository.findById(carId).orElse(null);
-        if(client==null) return ResponseEntity.ok("Client doesn't exist");
-        if(car==null) return ResponseEntity.ok("Car doesn't exist");
+        Client client = clientRepository.findById(clientId).orElseThrow(() -> new EntityNotFoundException("Client doesn't exist"));
+        Car car = carRepository.findById(carId).orElseThrow(() -> new EntityNotFoundException("Car doesn't exist"));
+
         client.getCars().remove(car);
 
         car=carDtoMapper.toEntityWithId(carId,carRequestDto);
-        car.setClient(clientRepository.findById(clientId).orElse(null));
+        car.setClient(clientRepository.findById(clientId).orElseThrow(() -> new EntityNotFoundException("Client doesn't exist")));
         carRepository.save(car);
         client.getCars().add(car);
         CarResponseDto carResponseDto=carDtoMapper.toDto(car);

@@ -12,6 +12,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
+
 @Service
 @RequiredArgsConstructor
 public class ClientServiceImpl implements ClientService {
@@ -37,34 +39,27 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public ClientResponseDto getById(Long id) {
-        Client searchedClient = clientRepository.findById(id).orElse(null);
+        Client searchedClient = clientRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Client doesn't exist"));
 
         ClientResponseDto clientResponseDto = new ClientResponseDto();
+        clientResponseDto = clientDtoMapper.toDto(searchedClient);
 
-        if(searchedClient!=null) {
-            clientResponseDto = clientDtoMapper.toDto(searchedClient);
-        }
         return clientResponseDto;
     }
 
     @Override
     public ResponseEntity<String> deleteById(Long id) {
-        Client searchedClient = clientRepository.findById(id).orElse(null);
-        if(searchedClient!=null){
-            clientRepository.deleteById(id);
-            return ResponseEntity.ok("Deleted");
-        }
-        return ResponseEntity.ok("Doesn't exist");
+        Client searchedClient = clientRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Client doesn't exist"));
+        clientRepository.deleteById(id);
 
+        return ResponseEntity.ok("Deleted");
     }
 
     @Override
     public ResponseEntity<?> update(Long id, ClientRequestDto clientRequestDto) {
-        Client searchedClient = clientRepository.findById(id).orElse(null);
 
-        if(searchedClient==null) {
-            return ResponseEntity.ok("Doesn't exist");
-        }
+        Client searchedClient = clientRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Client doesn't exist"));
+
 
         searchedClient = clientDtoMapper.toDto(clientRequestDto);
 
