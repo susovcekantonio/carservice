@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name="car")
@@ -34,4 +35,7 @@ public class Car {
 
     @Column(name="color")
     private String color;
+
+    @OneToMany(mappedBy = "car")
+    private List<CarService> carServices;
 }
