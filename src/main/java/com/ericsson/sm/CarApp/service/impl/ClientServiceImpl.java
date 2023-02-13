@@ -21,11 +21,11 @@ public class ClientServiceImpl implements ClientService {
 
     private final ClientRepository clientRepository;
     private final ClientDtoMapper clientDtoMapper;
+    private final ClientValidation clientValidation;
 
     @Override
     public ClientResponseDto save(ClientRequestDto clientRequestDto) {
         Client client = clientDtoMapper.toDto(clientRequestDto);
-        ClientValidation clientValidation = new ClientValidation();
         clientValidation.validate(client);
 
         Client savedClient = clientRepository.save(client);
