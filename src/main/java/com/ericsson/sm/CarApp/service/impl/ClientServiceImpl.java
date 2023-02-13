@@ -6,6 +6,7 @@ import com.ericsson.sm.CarApp.model.Client;
 import com.ericsson.sm.CarApp.repository.ClientRepository;
 import com.ericsson.sm.CarApp.service.ClientService;
 import com.ericsson.sm.CarApp.service.mapper.ClientDtoMapper;
+import com.ericsson.sm.CarApp.validation.ClientValidation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -20,10 +21,12 @@ public class ClientServiceImpl implements ClientService {
 
     private final ClientRepository clientRepository;
     private final ClientDtoMapper clientDtoMapper;
+    private final ClientValidation clientValidation;
 
     @Override
     public ClientResponseDto save(ClientRequestDto clientRequestDto) {
         Client client = clientDtoMapper.toDto(clientRequestDto);
+        clientValidation.validate(client);
 
         Client savedClient = clientRepository.save(client);
 
