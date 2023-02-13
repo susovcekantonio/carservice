@@ -12,12 +12,14 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class CarDtoMapper {
+    private final CarServiceDtoMapper carServiceDtoMapper;
     public CarResponseDto toDto(Car car){
         CarResponseDto carResponseDto = new CarResponseDto();
         carResponseDto.setCarType(car.getCarType());
         carResponseDto.setManufactureYear(car.getManufactureYear());
         carResponseDto.setRegistrationMark(car.getRegistrationMark());
         carResponseDto.setColor(car.getColor());
+        carResponseDto.setCarServices(carServiceDtoMapper.toDto(car.getCarServices()));
 
         return carResponseDto;
     }
@@ -53,6 +55,7 @@ public class CarDtoMapper {
                 carResponseDto.setManufactureYear(car.getManufactureYear());
                 carResponseDto.setRegistrationMark(car.getRegistrationMark());
                 carResponseDto.setColor(car.getColor());
+                carResponseDto.setCarServices(carServiceDtoMapper.toDto(car.getCarServices()));
                 savedCars.add(carResponseDto);
             }
         }
