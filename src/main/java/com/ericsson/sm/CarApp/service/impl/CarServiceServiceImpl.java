@@ -12,6 +12,7 @@ import com.ericsson.sm.CarApp.service.CarServiceService;
 import com.ericsson.sm.CarApp.service.mapper.CarServiceDtoMapper;
 import com.ericsson.sm.CarApp.service.mapper.ClientDtoMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
@@ -35,5 +36,14 @@ public class CarServiceServiceImpl implements CarServiceService {
         car.getCarServices().add(carService);
 
         return clientDtoMapper.toDto(client);
+    }
+
+    @Override
+    public ResponseEntity<String> deleteById(Long clientId, Long carId, Long carServiceId) {
+        CarService carService = carServiceRepository.findById(carServiceId).orElseThrow(() -> new EntityNotFoundException("CarService doesn't exist"));
+        Car car = carRepository.findById(carId).orElseThrow(() -> new EntityNotFoundException("Car doesn't exist"));
+        car.getCarServices().remove(carService);
+        carServiceRepository.deleteById(carServiceId);
+        return ResponseEntity.ok("Deleted");
     }
 }
