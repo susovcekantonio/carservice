@@ -1,6 +1,7 @@
 package com.ericsson.sm.CarApp.service.impl;
 
 import com.ericsson.sm.CarApp.dto.CarServiceRequestDto;
+import com.ericsson.sm.CarApp.dto.CarServiceResponseDto;
 import com.ericsson.sm.CarApp.dto.ClientResponseDto;
 import com.ericsson.sm.CarApp.model.Car;
 import com.ericsson.sm.CarApp.model.CarService;
@@ -45,5 +46,22 @@ public class CarServiceServiceImpl implements CarServiceService {
         car.getCarServices().remove(carService);
         carServiceRepository.deleteById(carServiceId);
         return ResponseEntity.ok("Deleted");
+    }
+
+    @Override
+    public ResponseEntity<?> updateById(Long clientId, Long carId, Long carServiceId, CarServiceRequestDto carServiceRequestDto) {
+        CarService carService = carServiceRepository.findById(carServiceId).orElseThrow(() -> new EntityNotFoundException("CarService doesn't exist"));
+        Car car = carRepository.findById(carId).orElseThrow(() -> new EntityNotFoundException("Car doesn't exist"));
+
+        car.getCarServices().remove(carService);
+
+        carService = carServiceDtoMapper.toEntity(carServiceRequestDto);
+        carService.setId(carServiceId);
+        carService.setCar(car);
+        carServiceRepository.save(carService);
+        car.getCarServices().add(carService);
+        CarServiceResponseDto carServiceResponseDto = carServiceDtoMapper.toDto(carService);
+
+        return ResponseEntity.ok(carServiceResponseDto);
     }
 }

@@ -21,4 +21,9 @@ public class CarServiceController {
     public ResponseEntity<String> deleteById(@PathVariable Long clientId, @PathVariable Long carId, @PathVariable Long carServiceId){
         return carServiceService.deleteById(clientId,carId, carServiceId);
     }
+
+    @PutMapping("/api/customers/{clientId}/cars/{carId}/car-services/{carServiceId}")
+    public ResponseEntity<?> updateById(@PathVariable Long clientId, @PathVariable Long carId, @PathVariable Long carServiceId, @RequestBody CarServiceRequestDto carServiceRequestDto){
+        return carServiceService.updateById(clientId,carId, carServiceId,carServiceRequestDto);
+    }
 }
