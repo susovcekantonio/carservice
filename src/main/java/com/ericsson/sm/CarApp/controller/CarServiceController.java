@@ -1,5 +1,7 @@
 package com.ericsson.sm.CarApp.controller;
 
+import com.ericsson.sm.CarApp.dto.CarServiceIsPaidRequestDto;
+import com.ericsson.sm.CarApp.dto.CarServiceIsPaidResponseDto;
 import com.ericsson.sm.CarApp.dto.CarServiceRequestDto;
 import com.ericsson.sm.CarApp.dto.ClientResponseDto;
 import com.ericsson.sm.CarApp.service.CarServiceService;
@@ -25,5 +27,10 @@ public class CarServiceController {
     @PutMapping("/api/customers/{clientId}/cars/{carId}/car-services/{carServiceId}")
     public ResponseEntity<?> updateById(@PathVariable Long clientId, @PathVariable Long carId, @PathVariable Long carServiceId, @RequestBody CarServiceRequestDto carServiceRequestDto){
         return carServiceService.updateById(clientId,carId, carServiceId,carServiceRequestDto);
+    }
+
+    @PutMapping("/api/customers/{clientId}/cars/{carId}/car-services/{carServiceId}/is-paid")
+    public CarServiceIsPaidResponseDto updateIsPaid(@PathVariable Long clientId, @PathVariable Long carId, @PathVariable Long carServiceId, @RequestBody CarServiceIsPaidRequestDto carServiceIsPaidRequestDto){
+        return carServiceService.updateIsPaid(clientId,carId, carServiceId,carServiceIsPaidRequestDto);
     }
 }

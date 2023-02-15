@@ -1,8 +1,6 @@
 package com.ericsson.sm.CarApp.service.impl;
 
-import com.ericsson.sm.CarApp.dto.CarServiceRequestDto;
-import com.ericsson.sm.CarApp.dto.CarServiceResponseDto;
-import com.ericsson.sm.CarApp.dto.ClientResponseDto;
+import com.ericsson.sm.CarApp.dto.*;
 import com.ericsson.sm.CarApp.model.Car;
 import com.ericsson.sm.CarApp.model.CarService;
 import com.ericsson.sm.CarApp.model.Client;
@@ -63,5 +61,16 @@ public class CarServiceServiceImpl implements CarServiceService {
         CarServiceResponseDto carServiceResponseDto = carServiceDtoMapper.toDto(carService);
 
         return ResponseEntity.ok(carServiceResponseDto);
+    }
+
+    @Override
+    public CarServiceIsPaidResponseDto updateIsPaid(Long clientId, Long carId, Long carServiceId, CarServiceIsPaidRequestDto carServiceIsPaidRequestDto) {
+        CarService carService = carServiceRepository.findById(carServiceId).orElseThrow(() -> new EntityNotFoundException("CarService doesn't exist"));
+        carService.setPaid(carServiceIsPaidRequestDto.isPaid());
+        carServiceRepository.save(carService);
+        CarServiceIsPaidResponseDto carServiceIsPaidResponseDto = new CarServiceIsPaidResponseDto();
+        carServiceIsPaidResponseDto.setMessage("success");
+
+        return  carServiceIsPaidResponseDto;
     }
 }
