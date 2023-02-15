@@ -26,6 +26,18 @@ public class CarServiceDtoMapper {
         return carService;
     }
 
+    public CarServiceResponseDto toDto(CarService carService){
+        CarServiceResponseDto carServiceResponseDto = new CarServiceResponseDto();
+        carServiceResponseDto.setDateOfService(carService.getDateOfService());
+        carServiceResponseDto.setWorkerFirstName(carService.getWorkerFirstName());
+        carServiceResponseDto.setWorkerLastName(carService.getWorkerLastName());
+        carServiceResponseDto.setWorkDescription(carService.getWorkDescription());
+        carServiceResponseDto.setPrice(carService.getPrice());
+        carServiceResponseDto.setPaid(carService.isPaid());
+
+        return  carServiceResponseDto;
+    }
+
     public List<CarServiceResponseDto> toDto(List<CarService> carServices) {
         List<CarServiceResponseDto> savedCarServices = new ArrayList<>();
         if (!carServices.isEmpty() && carServices != null) {

@@ -8,4 +8,6 @@ public interface CarServiceService {
     ClientResponseDto save(Long clientId, Long carId, CarServiceRequestDto carServiceRequestDto);
 
     ResponseEntity<String> deleteById(Long clientId, Long carId, Long carServiceId);
+
+    ResponseEntity<?> updateById(Long clientId, Long carId, Long carServiceId, CarServiceRequestDto carServiceRequestDto);
 }
