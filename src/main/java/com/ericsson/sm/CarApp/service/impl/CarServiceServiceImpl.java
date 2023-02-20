@@ -8,8 +8,8 @@ import com.ericsson.sm.CarApp.repository.CarRepository;
 import com.ericsson.sm.CarApp.repository.CarServiceRepository;
 import com.ericsson.sm.CarApp.repository.ClientRepository;
 import com.ericsson.sm.CarApp.service.CarServiceService;
-import com.ericsson.sm.CarApp.service.mapper.CarServiceDtoMapper;
-import com.ericsson.sm.CarApp.service.mapper.ClientDtoMapper;
+import com.ericsson.sm.CarApp.service.mapper.CarServiceMapper;
+import com.ericsson.sm.CarApp.service.mapper.ClientMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -22,19 +22,19 @@ public class CarServiceServiceImpl implements CarServiceService {
     private final CarServiceRepository carServiceRepository;
     private final ClientRepository clientRepository;
     private final CarRepository carRepository;
-    private final CarServiceDtoMapper carServiceDtoMapper;
-    private final ClientDtoMapper clientDtoMapper;
+    private final CarServiceMapper carServiceMapper;
+    private final ClientMapper clientMapper;
 
     @Override
     public ClientResponseDto save(Long clientId, Long carId, CarServiceRequestDto carServiceRequestDto) {
         Client client = clientRepository.findById(clientId).orElseThrow(() -> new EntityNotFoundException("Client doesn't exist"));
         Car car = carRepository.findById(carId).orElseThrow(() -> new EntityNotFoundException("Car doesn't exist"));
-        CarService carService = carServiceDtoMapper.toEntity(carServiceRequestDto);
+        CarService carService = carServiceMapper.toEntity(carServiceRequestDto);
         carService.setCar(car);
         carServiceRepository.save(carService);
         car.getCarServices().add(carService);
 
-        return clientDtoMapper.toDto(client);
+        return clientMapper.toDto(client);
     }
 
     @Override
@@ -53,12 +53,12 @@ public class CarServiceServiceImpl implements CarServiceService {
 
         car.getCarServices().remove(carService);
 
-        carService = carServiceDtoMapper.toEntity(carServiceRequestDto);
+        carService = carServiceMapper.toEntity(carServiceRequestDto);
         carService.setId(carServiceId);
         carService.setCar(car);
         carServiceRepository.save(carService);
         car.getCarServices().add(carService);
-        CarServiceResponseDto carServiceResponseDto = carServiceDtoMapper.toDto(carService);
+        CarServiceResponseDto carServiceResponseDto = carServiceMapper.toDto(carService);
 
         return ResponseEntity.ok(carServiceResponseDto);
     }
